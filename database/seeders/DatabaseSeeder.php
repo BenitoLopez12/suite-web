@@ -10,14 +10,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(
             [
-                // PermissionsTableSeeder::class,
-                // RolesTableSeeder::class,
-                // UsersTableSeeder::class,
-                // GapunoTableSeeder::class,
-                // GaptresTableSeeder::class,
+                PermissionsTableSeeder::class,
+                RolesTableSeeder::class,
+                UsersTableSeeder::class,
+                GapunoTableSeeder::class,
+                GaptresTableSeeder::class,
                 // // GapdosTableSeeder::class,
-                // declaracion_aplicabilidad_table::class,
-                // EstadodocumentosTableSeeder::class,
+                declaracion_aplicabilidad_table::class,
+                EstadodocumentosTableSeeder::class,
                 // // ControlDocumentosSeeder::class,
                 // EstadoincidentesTableSeeder::class,
                 // EstusplatrabajoTableSeeder::class,
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
                 // VacacionesPermisosSeeder::class,
                 // PermisosBIASeeder::class,
                 // AjustesAIASeeder::class,
-                // VersionIsoHistoricoSeeder::class,
+                VersionIsoHistoricoSeeder::class,
                 // GapUnoCatalogoIsoSeeder::class,
                 // GapTresCatalogoIsoSeeder::class,
                 // ClasificacionSeeder::class,
@@ -100,14 +100,14 @@ class DatabaseSeeder extends Seeder
                 ProveedoresRequisicionesCatalogosTableSeeder::class,
                 ProveedorIndistintosTableSeeder::class,
                 ProveedorRequisicionsTableSeeder::class,
-                // PermisosKatbol::class,
+                PermisosKatbol::class,
                 // DashboardGestionContratosSeeder::class,
 
                 //kaans
-                // PermisosEscuelaInstructorSeeder::class,
-                // PlatformSeeder::class,
-                // PermisosEscuelaAdminSeeder::class,
-                // PermisosEscuelaEstudianteSeeder::class
+                PermisosEscuelaInstructorSeeder::class,
+                PlatformSeeder::class,
+                PermisosEscuelaAdminSeeder::class,
+                PermisosEscuelaEstudianteSeeder::class
             ]
         );
     }
