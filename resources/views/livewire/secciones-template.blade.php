@@ -5,14 +5,14 @@
             <hr style="">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-floating mb-3 ">
-                        <input type="text" class="form-control" placeholder="Nombre del Template" id="nombre_template"
+                    <div class="anima-focus mb-3 ">
+                        <input type="text" class="form-control" placeholder="" id="nombre_template"
                             name="nombre_template" required>
                         <label for="nombre_template">Nombre del Template <sup>*</sup></label>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-floating mb-3 ">
+                    <div class="anima-focus mb-3 ">
                         <select id="norma" name="norma" class="form-control " required>
                             @foreach ($normas as $norma)
                                 <option value="{{ $norma->id }}">{{ $norma->norma }}</option>
@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripcion" style="height: 100px"></textarea>
+                        <textarea class="form-control" id="descripcion" name="descripcion" placeholder="""" style="height: 100px"></textarea>
                         <label for="descripcion">Descripción</label>
                     </div>
                 </div>
@@ -50,23 +50,23 @@
                             class="color-input form-control" value="#34B990" title="Seleccione un color">
                     </div>
                     <div class="col-3">
-                        <div class="form-floating mb-3 ">
-                            <input type="text" id="estatus_1" name="estatus_1" class="form-control"
-                                placeholder="Estatus" required>
+                        <div class="anima-focus mb-3 ">
+                            <input type="text" id="estatus_1" name="estatus_1" class="form-control" placeholder=""
+                                required>
                             <label for="estatus_1">Estatus<sup>*</sup></label>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="number" id="valor_estatus_1" name="valor_estatus_1" class="form-control"
-                                placeholder="Valor" required>
+                                placeholder="" required>
                             <label for="valor_estatus_1">Valor<sup>*</sup></label>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="text" id="descripcion_parametros_1" name="descripcion_parametros_1"
-                                class="form-control" placeholder="Descripción">
+                                class="form-control" placeholder="">
                             <label for="descripcion_parametros_1">Descripción</label>
                         </div>
                     </div>
@@ -79,23 +79,23 @@
                             class="color-input form-control" value="#73A7D5" title="Seleccione un color">
                     </div>
                     <div class="col-3">
-                        <div class="form-floating mb-3 ">
-                            <input type="text" id="estatus_2" name="estatus_2" class="form-control"
-                                placeholder="Estatus" required>
+                        <div class="anima-focus mb-3 ">
+                            <input type="text" id="estatus_2" name="estatus_2" class="form-control" placeholder=""
+                                required>
                             <label for="estatus_2">Estatus <sup>*</sup></label>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="number" id="valor_estatus_2" name="valor_estatus_2" class="form-control"
-                                placeholder="Valor" required>
+                                placeholder="" required>
                             <label for="valor_estatus_2">Valor <sup>*</sup></label>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="text" id="descripcion_parametros_2" name="descripcion_parametros_2"
-                                class="form-control" placeholder="Descripción">
+                                class="form-control" placeholder="">
                             <label for="descripcion_parametros_2">Descripción</label>
                         </div>
                     </div>
@@ -108,23 +108,23 @@
                             class="color-input form-control" value="#F59595" title="Seleccione un color">
                     </div>
                     <div class="col-3">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="text" id="estatus_3" name="estatus_3" class="form-control"
-                                placeholder="Estatus">
+                                placeholder="">
                             <label for="estatus_3">Estatus</label>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="number" id="valor_estatus_3" name="valor_estatus_3" class="form-control"
-                                placeholder="Valor">
+                                placeholder="">
                             <label for="valor_estatus_3">Valor</label>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="text" id="descripcion_parametros_3" name="descripcion_parametros_3"
-                                class="form-control" placeholder="Descripción">
+                                class="form-control" placeholder="">
                             <label for="descripcion_parametros_3">Descripción</label>
                         </div>
                     </div>
@@ -137,23 +137,23 @@
                             class="color-input form-control" value="#EEEEEE" title="Seleccione un color">
                     </div>
                     <div class="col-3">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="text" id="estatus_4" name="estatus_4" class="form-control"
-                                placeholder="Estatus">
+                                placeholder="">
                             <label for="estatus_4">Estatus</label>
                         </div>
                     </div>
                     <div class="col-2">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="number" id="valor_estatus_4" name="valor_estatus_4" class="form-control"
-                                placeholder="Valor">
+                                placeholder="">
                             <label for="valor_estatus_4">Valor</label>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-floating mb-3 ">
+                        <div class="anima-focus mb-3 ">
                             <input type="text" id="descripcion_parametros_4" name="descripcion_parametros_4"
-                                class="form-control" placeholder="Descripción">
+                                class="form-control" placeholder="">
                             <label for="descripcion_parametros_4">Descripción</label>
                         </div>
                     </div>
@@ -247,9 +247,8 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="descripcion_s1" name="descripcion_s1" placeholder="Descripcion"
-                                    style="height: 150px"></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="descripcion_s1" name="descripcion_s1" placeholder="" style="height: 150px"></textarea>
                                 <label for="descripcion_s1">Descripción <sup>*</sup></label>
                             </div>
                         </div>
@@ -277,9 +276,8 @@
                     </div><br>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="pregunta1" name="pregunta1" placeholder="Pregunta" style="height: 76px;"
-                                    required></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="pregunta1" name="pregunta1" placeholder="" style="height: 76px;" required></textarea>
                                 <label for="pregunta1">Pregunta <sup>*</sup><label>
                             </div>
                         </div>
@@ -299,9 +297,9 @@
                         </div><br>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-floating mb-3">
+                                <div class="anima-focus mb-3">
                                     <textarea class="form-control" id="pregunta1_{{ $key }}" name="pregunta1_{{ $key }}"
-                                        placeholder="Pregunta" style="height: 76px;"></textarea>
+                                        placeholder="" style="height: 76px;"></textarea>
                                     <label for="pregunta1_{{ $key }}">Pregunta</label>
                                 </div>
                             </div>
@@ -360,9 +358,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="descripcion_s2" name="descripcion_s2" placeholder="Descripcion"
-                                    style="height: 150px"></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="descripcion_s2" name="descripcion_s2" placeholder="" style="height: 150px"></textarea>
                                 <label for="descripcion_s2">Descripción<sup>*</sup></label>
                             </div>
                         </div>
@@ -388,9 +385,8 @@
                     </div><br>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="pregunta2" name="pregunta2" placeholder="Pregunta" style="height: 76px;"
-                                    required></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="pregunta2" name="pregunta2" placeholder="" style="height: 76px;" required></textarea>
                                 <label for="pregunta2">Pregunta<sup>*</sup></label>
                             </div>
                         </div>
@@ -409,9 +405,9 @@
                         </div><br>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-floating mb-3">
+                                <div class="anima-focus mb-3">
                                     <textarea class="form-control" id="pregunta2_{{ $key }}" name="pregunta2_{{ $key }}"
-                                        placeholder="Pregunta" style="height: 76px;"></textarea>
+                                        placeholder="" style="height: 76px;"></textarea>
                                     <label for="pregunta2_{{ $key }}">Pregunta</label>
                                 </div>
                             </div>
@@ -469,9 +465,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="descripcion_s3" name="descripcion_s3" placeholder="Descripcion"
-                                    style="height: 150px"></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="descripcion_s3" name="descripcion_s3" placeholder="" style="height: 150px"></textarea>
                                 <label for="descripcion_s3">Descripción<sup>*</sup></label>
                             </div>
                         </div>
@@ -497,9 +492,8 @@
                     </div><br>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="pregunta3" name="pregunta3" placeholder="Pregunta" style="height: 76px;"
-                                    required></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="pregunta3" name="pregunta3" placeholder="" style="height: 76px;" required></textarea>
                                 <label for="pregunta3">Pregunta<sup>*</sup></label>
                             </div>
                         </div>
@@ -518,9 +512,9 @@
                         </div><br>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-floating mb-3">
+                                <div class="anima-focus mb-3">
                                     <textarea class="form-control" id="pregunta3_{{ $key }}" name="pregunta3_{{ $key }}"
-                                        placeholder="Pregunta" style="height: 76px;"></textarea>
+                                        placeholder="" style="height: 76px;"></textarea>
                                     <label for="pregunta3_{{ $key }}">Pregunta</label>
                                 </div>
                             </div>
@@ -578,9 +572,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="descripcion_s4" name="descripcion_s4" placeholder="Descripcion"
-                                    style="height: 150px"></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="descripcion_s4" name="descripcion_s4" placeholder="" style="height: 150px"></textarea>
                                 <label for="descripcion_s4">Descripción<sup>*</sup></label>
                             </div>
                         </div>
@@ -606,9 +599,8 @@
                     </div><br>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="pregunta4" name="pregunta4" placeholder="Pregunta" style="height: 76px;"
-                                    required></textarea>
+                            <div class="anima-focus mb-3">
+                                <textarea class="form-control" id="pregunta4" name="pregunta4" placeholder="" style="height: 76px;" required></textarea>
                                 <label for="pregunta4">Pregunta<sup>*</sup></label>
                             </div>
                         </div>
@@ -627,9 +619,9 @@
                         </div><br>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-floating mb-3">
+                                <div class="anima-focus mb-3">
                                     <textarea class="form-control" id="pregunta4_{{ $key }}" name="pregunta4_{{ $key }}"
-                                        placeholder="Pregunta" style="height: 76px;"></textarea>
+                                        placeholder="" style="height: 76px;"></textarea>
                                     <label for="pregunta4_{{ $key }}">Pregunta</label>
                                 </div>
                             </div>

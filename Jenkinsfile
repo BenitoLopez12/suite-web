@@ -9,10 +9,9 @@ pipeline {
 
        stage('Install') {
             steps {
-                git branch: 'develop', url: 'https://gitlab.com/silent4business/tabantaj.git'
+                git branch: 'develop', url: 'https://github.com/Silent4Devs/suite-web.git'
             }
         }
-
 
 
         stage('Build') {
@@ -37,7 +36,7 @@ pipeline {
             steps {
                 script {
                     sshagent(['/root/.ssh/id_rsa.pub']) {
-                        sh 'scp -r $WORKSPACE/* desarrollo@192.168.9.78:/var/contenedor/tabantaj/'
+                        sh 'scp -r $WORKSPACE/* desarrollo@192.168.9.78:/var/contenedor/suite-web'
                     }
                 }
             }

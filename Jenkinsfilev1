@@ -1,8 +1,2 @@
-// Jenkinsfilev1
-
 // Este Jenkinsfilev1 no contiene un bloque pipeline adicional
-sh 'cd Testing/Calendario'
-sh 'pip install pytest'
-sh 'pip install selenium'
-// sh 'pytest test_calendario'
-// Puedes agregar más pasos según sea necesario
+git branch: 'stagging', url: 'https://github.com/Silent4Devs/suite-web.git'
