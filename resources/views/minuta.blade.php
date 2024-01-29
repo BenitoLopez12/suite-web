@@ -11,7 +11,11 @@
         <div class="card-body">
             <div class="card mt-6" style="width:750px; display: flex; align-items: center;">
                 <div class="col-3" style="border-left: 25px solid #2395AA;">
-                    <img src="{{ asset('silent.png') }}" class="mt-2 img-fluid" style="width: 100%; max-width: 100px; height: auto;">
+                    @if ($logo_actual)
+                     <img style="width: 100%; max-width: 100px; height: auto;" src="{{public_path($logo_actual)}}">
+                    @else
+                        <img src="{{ public_path('sinLogo.png') }}"  style="width:100%; max-width:150px;">
+                    @endif
                 </div>
                 <div class="col-4"  style="position: relative; top: -4rem; left: 9rem;">
                     <span class="" style="color:black; font-size: 11px;">
@@ -80,7 +84,7 @@
                     <tbody>
                         <tr>
                             <td style="border: 1px solid #dddddd; padding: 10px;" colspan="2">
-                                <textarea style="width: 100%; border: none; outline: none; resize: none; background-color: transparent;"></textarea>
+                                <textarea style="width: 100%; border: none; outline: none; resize: none; background-color: transparent;"> {{ htmlspecialchars(strip_tags($minutas->tema_tratado)) }}</textarea>
                             </td>
                         </tr>
                     </tbody>
@@ -106,27 +110,6 @@
                             <td style="border: 1px solid #dddddd;">{{$minutas->fechareunion}}</td>
                             <td style="border: 1px solid #dddddd;">{{$revision->estatus}}</td>
                             <td style="border: 1px solid #dddddd;">{{$revision->cometarios}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-                <table style="border-collapse: collapse; width: 100%; border: 1px solid #dddddd;">
-                    <thead>
-                        <tr>
-                            <th style="background-color: #306BA9; padding: 8px; color: #EEFCFF; border-top-left-radius: 10px; border-top-right-radius: 10px;" colspan="6"><center>Próxima reunión</center></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="border: 1px solid #dddddd;">Fecha:</td>
-                            <td style="border: 1px solid #dddddd;"></td>
-                            <td style="border: 1px solid #dddddd;">Hora</td>
-                            <td style="border: 1px solid #dddddd;"></td>
-                            <td style="border: 1px solid #dddddd;">Lugar</td>
-                            <td style="border: 1px solid #dddddd;"></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid #dddddd;" colspan="6">Proposito:</td>
                         </tr>
                     </tbody>
                 </table>

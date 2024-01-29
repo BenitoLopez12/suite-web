@@ -73,6 +73,10 @@ class AlcanceSgsiController extends Controller
                 return $row->normas ? $row->normas : '';
             });
 
+            $table->editColumn('estatus', function ($row) {
+                return $row->estatus ? $row->estatus : '';
+            });
+
             $table->editColumn('fecha_publicacion', function ($row) {
                 return $row->fecha_publicacion ? $row->fecha_publicacion : '';
             });
@@ -109,7 +113,7 @@ class AlcanceSgsiController extends Controller
 
         $modulo = ListaDistribucion::with('participantes.empleado')->where('modelo', '=', $this->modelo)->first();
 
-        if (!isset($modulo)) {
+        if (! isset($modulo)) {
             $listavacia = 'vacia';
         } elseif ($modulo->participantes->isEmpty()) {
             $listavacia = 'vacia';
@@ -153,7 +157,8 @@ class AlcanceSgsiController extends Controller
             'alcancesgsi' => $request->input('alcancesgsi'),
             'fecha_publicacion' => $request->input('fecha_publicacion'),
             'fecha_revision' => $request->input('fecha_revision'),
-            'estatus' => 'pendiente',
+            'estatus' => 'Pendiente',
+            'id_reviso_alcance' => User::getCurrentUser()->empleado->id, //Para saber quien lo elaboro/responsable
         ]);
 
         $this->solicitudAprobacion($alcanceSgsi->id);
@@ -202,7 +207,7 @@ class AlcanceSgsiController extends Controller
             'alcancesgsi' => $request->input('alcancesgsi'),
             'fecha_publicacion' => $request->input('fecha_publicacion'),
             'fecha_revision' => $request->input('fecha_revision'),
-            'estatus' => 'pendiente',
+            'estatus' => 'Pendiente',
         ]);
 
         $this->solicitudAprobacion($alcanceSgsi->id);
@@ -241,8 +246,21 @@ class AlcanceSgsiController extends Controller
 
         $alcances = AlcanceSgsi::get();
         $organizacions = Organizacion::getFirst();
+        $logo_actual = $organizacions->logo;
 
-        $pdf = PDF::loadView('alcances', compact('alcances', 'organizacions'));
+        $pdf = PDF::loadView('alcances', compact('alcances', 'organizacions', 'logo_actual'));
+        $pdf->setPaper('A4', 'portrait');
+
+        return $pdf->download('alcances.pdf');
+    }
+
+    public function pdfShow($id)
+    {
+        $alcances = AlcanceSgsi::find($id);
+        $organizacions = Organizacion::getFirst();
+        $logo_actual = $organizacions->logo;
+
+        $pdf = PDF::loadView('alcances_show', compact('alcances', 'organizacions', 'logo_actual'));
         $pdf->setPaper('A4', 'portrait');
 
         return $pdf->download('alcances.pdf');
@@ -285,7 +303,7 @@ class AlcanceSgsiController extends Controller
         foreach ($proceso->participantes as $part) {
             if ($part->participante->nivel == 0) {
                 $emailSuperAprobador = $part->participante->empleado->email;
-                //Mail::to(removeUnicodeCharacters($emailSuperAprobador))->send(new NotificacionSolicitudAprobacionAlcance($alcance->id, $alcance->nombre));
+                Mail::to(removeUnicodeCharacters($emailSuperAprobador))->queue(new NotificacionSolicitudAprobacionAlcance($alcance->id, $alcance->nombre));
                 // dd('primer usuario', $part->participante);
             }
         }
@@ -298,7 +316,7 @@ class AlcanceSgsiController extends Controller
 
                 if ($part->participante->numero_orden == 1) {
                     $emailAprobador = $part->participante->empleado->email;
-                    //Mail::to(removeUnicodeCharacters($emailAprobador))->send(new NotificacionSolicitudAprobacionAlcance($alcance->id, $alcance->nombre));
+                    Mail::to(removeUnicodeCharacters($emailAprobador))->queue(new NotificacionSolicitudAprobacionAlcance($alcance->id, $alcance->nombre));
                     break;
                 }
                 // }
@@ -319,12 +337,18 @@ class AlcanceSgsiController extends Controller
         // dd($alcanceSgsi);
         $modulo = ListaDistribucion::where('modelo', '=', $this->modelo)->first();
 
+        $alcanceSgsi->load('team');
+        $normas = Norma::get();
+
         $proceso = ProcesosListaDistribucion::with('participantes')
             ->where('modulo_id', '=', $modulo->id)
             ->where('proceso_id', '=', $alcanceSgsi->id)
             ->first();
 
         $no_niveles = $modulo->niveles;
+
+        $acceso_restringido = 'correcto';
+
         if ($proceso->estatus == 'Pendiente') {
             for ($i = 1; $i <= $no_niveles; $i++) {
                 foreach ($proceso->participantes as $part) {
@@ -341,29 +365,32 @@ class AlcanceSgsiController extends Controller
                             ) {
                                 // dd($proceso);
                                 // dd($alcanceSgsi, $part);
-                                $alcanceSgsi->load('team');
-                                $normas = Norma::get();
 
-                                return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas'));
+                                return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas', 'acceso_restringido'));
                                 break;
                             } else {
-                                return redirect(route('admin.alcance-sgsis.index'));
+                                $acceso_restringido = 'turno';
+
+                                return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas', 'acceso_restringido'));
                             }
                         }
                     } elseif (
                         $part->participante->nivel == 0 && $part->estatus == 'Pendiente'
                         && $part->participante->empleado_id == User::getCurrentUser()->empleado->id
                     ) {
-                        $alcanceSgsi->load('team');
-                        $normas = Norma::get();
 
-                        return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas'));
+                        return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas', 'acceso_restringido'));
                         break;
                     }
                 }
             }
+            $acceso_restringido = 'denegado';
+
+            return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas', 'acceso_restringido'));
         } else {
-            return redirect(route('admin.alcance-sgsis.index'));
+            $acceso_restringido = 'aprobado';
+
+            return view('admin.alcanceSgsis.revision', compact('alcanceSgsi', 'normas', 'acceso_restringido'));
         }
     }
 
@@ -442,7 +469,7 @@ class AlcanceSgsiController extends Controller
         $procesoAprobado = ProcesosListaDistribucion::with('participantes')->find($proceso);
         foreach ($procesoAprobado->participantes as $part) {
             $emailAprobado = $part->participante->empleado->email;
-            //Mail::to(removeUnicodeCharacters($emailAprobado))->send(new NotificacionAprobacionAlcance($alcance->nombre));
+            Mail::to(removeUnicodeCharacters($emailAprobado))->queue(new NotificacionAprobacionAlcance($alcance->nombre));
             // dd('primer usuario', $part->participante);
         }
     }
@@ -474,13 +501,13 @@ class AlcanceSgsiController extends Controller
             ]);
         }
         // $responsable = $minuta->responsable->name;
-        // $emailresponsable = $alcance->empleado->email;
+        $emailresponsable = $alcance->empleado->email;
         $alcance_nombre = $alcance->nombre;
-        // dd($emailresponsable);
-        //Mail::to(removeUnicodeCharacters($emailresponsable))->send(new NotificacionRechazoAlcanceLider($alcance->id, $alcance_nombre));
+        // dd($emailresponsable, $alcance_nombre);
+        Mail::to(removeUnicodeCharacters($emailresponsable))->queue(new NotificacionRechazoAlcanceLider($alcance->id, $alcance_nombre));
 
         foreach ($aprobacion->participantes as $participante) {
-            //Mail::to(removeUnicodeCharacters($participante->email))->send(new NotificacionRechazoAlcance($alcance_nombre));
+            Mail::to(removeUnicodeCharacters($participante->email))->queue(new NotificacionRechazoAlcance($alcance_nombre));
         }
 
         return redirect(route('admin.alcance-sgsis.index'));
@@ -489,7 +516,9 @@ class AlcanceSgsiController extends Controller
     public function confirmacionAprobacion($proceso, $alcance)
     {
         $confirmacion = ControlListaDistribucion::with('proceso')->where('proceso_id', '=', $proceso->id)
-            ->get();
+            ->withwhereHas('participante', function ($query) {
+                return $query->where('nivel', '>', 0);
+            })->get();
 
         $isSameEstatus = $confirmacion->every(function ($record) {
             return $record->estatus == 'Aprobado'; // Assuming 'estatus' is the column name
@@ -512,7 +541,7 @@ class AlcanceSgsiController extends Controller
 
     public function visualizacion()
     {
-        $alcances = AlcanceSgsi::where('estatus', 'aprobado')->get();
+        $alcances = AlcanceSgsi::where('estatus', 'Aprobado')->get();
 
         $organizacions = Organizacion::getFirst();
 
@@ -532,7 +561,7 @@ class AlcanceSgsiController extends Controller
                         if ($part->participante->numero_orden == $j && $part->estatus == 'Pendiente') {
                             $emailAprobador = $part->participante->empleado->email;
                             // dd($emailAprobador);
-                            //Mail::to(removeUnicodeCharacters($emailAprobador))->send(new NotificacionSolicitudAprobacionAlcance($alcance->id, $alcance->nombre));
+                            Mail::to(removeUnicodeCharacters($emailAprobador))->queue(new NotificacionSolicitudAprobacionAlcance($alcance->id, $alcance->nombre));
                             break;
                         }
                     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\EmpleadosGeneralExport;
 use App\Functions\CountriesFunction;
 use App\Http\Controllers\Controller;
 use App\Mail\EnviarCorreoBienvenidaTabantaj;
@@ -38,6 +39,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmpleadoController extends Controller
@@ -355,7 +357,7 @@ class EmpleadoController extends Controller
             User::findOrFail($user->id)->roles()->sync(4);
         }
         //Send email with generated password
-        Mail::to(removeUnicodeCharacters($empleado->email))->send(new EnviarCorreoBienvenidaTabantaj($empleado, $generatedPassword['password']));
+        Mail::to(removeUnicodeCharacters($empleado->email))->queue(new EnviarCorreoBienvenidaTabantaj($empleado, $generatedPassword['password']));
 
         return $user;
     }
@@ -931,7 +933,7 @@ class EmpleadoController extends Controller
         $sedes = Sede::getAll();
         if (isset($empleado->sede_id)) {
             $sede = Sede::getbyId($empleado->sede_id);
-        // dd($sede);
+            // dd($sede);
         } else {
             $sede = null;
             // dd($sede);
@@ -1609,5 +1611,13 @@ class EmpleadoController extends Controller
     public function importar()
     {
         return view('admin.empleados.importar');
+    }
+
+    public function exportExcel()
+    {
+        abort_if(Gate::denies('bd_empleados_acceder'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $export = new EmpleadosGeneralExport();
+
+        return Excel::download($export, 'Empleados.xlsx');
     }
 }

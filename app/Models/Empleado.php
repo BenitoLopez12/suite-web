@@ -184,6 +184,20 @@ class Empleado extends Model implements Auditable
         });
     }
 
+    public static function getAllwithDeleted(array $options = [])
+    {
+        return Cache::remember('Empleados:empleados_all_borrados', 3600 * 8, function () use ($options) {
+            $query = self::query();
+
+            if (isset($options['orderBy'])) {
+                $orderBy = $options['orderBy'];
+                $query->orderBy($orderBy[0], $orderBy[1]);
+            }
+
+            return $query->withTrashed()->get();
+        });
+    }
+
     public static function getIdNameAll(array $options = [])
     {
         // Generate a unique cache key based on the options provided
@@ -207,6 +221,13 @@ class Empleado extends Model implements Auditable
     {
         return Cache::remember('Empleados:empleados_alta', 3600 * 8, function () {
             return self::alta()->select('id', 'area_id', 'name')->get();
+        });
+    }
+
+    public static function getAltaEmpleadosWithCertificacionesCursosExperiencia()
+    {
+        return Cache::remember('Empleados:empleados_alta_WithCertificacionesCursosExperiencia', 3600 * 7, function () {
+            return self::with('empleado_certificaciones', 'empleado_cursos', 'empleado_experiencia')->alta()->get();
         });
     }
 
@@ -248,7 +269,15 @@ class Empleado extends Model implements Auditable
     public static function getaltaAllWithAreaObjetivoPerfil()
     {
         return Cache::remember('Empleados:empleados_alta_all_area', 3600 * 6, function () {
-            return self::alta()->with(['objetivos', 'area', 'perfil'])->get();
+            return self::alta()->select(
+                'n_empleado',
+                'name',
+                'puesto_id',
+                'area_id',
+                'perfil_empleado_id',
+                'id',
+                'foto'
+            )->with(['objetivos', 'area', 'perfil', 'puestoRelacionado'])->get();
         });
     }
 
@@ -486,7 +515,10 @@ class Empleado extends Model implements Auditable
 
     public function childrenOrganigrama()
     {
-        return $this->hasMany(self::class, 'supervisor_id', 'id')->with('childrenOrganigrama', 'supervisor', 'area')->vacanteActiva(); //Eager Loading utilizar solo para construir un arbol si no puede desbordar la pila
+        return $this->hasMany(self::class, 'supervisor_id', 'id')
+            ->select('id', 'name', 'foto', 'puesto_id', 'genero') // Agrega los campos que deseas seleccionar
+            ->with('childrenOrganigrama', 'supervisor', 'area')
+            ->vacanteActiva();
     }
 
     public function scopeAlta($query)
@@ -606,10 +638,10 @@ class Empleado extends Model implements Auditable
         return $this->belongsToMany('App\Models\Empleado', 'ev360_evaluado_evaluador', 'evaluador_id', 'id');
     }
 
-    // public function getJefeInmediatoAttribute()
-    // {
-    //     return $this->supervisor ? $this->supervisor->id : $this->id;
-    // }
+    public function getJefeInmediatoAttribute()
+    {
+        return $this->supervisor ? $this->supervisor->name : $this->id;
+    }
 
     public function getEmpleadosMismaAreaAttribute()
     {

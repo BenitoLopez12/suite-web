@@ -179,6 +179,127 @@
             </div>
         </div>
     </form>
+    @switch($acceso_restringido)
+        @case('correcto')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        // title: 'No es posible acceder a esta vista.',
+                        imageUrl: `{{ asset('img/errors/palomita_correcta.svg') }}`, // Replace with the path to your image
+                        imageWidth: 100, // Set the width of the image as needed
+                        imageHeight: 100,
+                        html: `<h4 style="color:red;">Es tu turno para aceptar el flujo en la lista de aprobación</h4>`,
+                        // icon: '{{ session('status') === 'success' ? 'success' : 'error' }}',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    });
+                });
+            </script>
+        @break;
+        @case('turno')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                        Swal.fire({
+                            // title: 'No es posible acceder a esta vista.',
+                            imageUrl: `{{ asset('img/errors/cara-roja-triste.svg') }}`, // Replace with the path to your image
+                            imageWidth: 100, // Set the width of the image as needed
+                            imageHeight: 100,
+                            html: `<h4 style="color:red;">Aun no es tu turno de revisar el Análisis FODA</h4>
+                <br><p>No es tu turno de revisar el flujo del Análisis FODA en la lista de aprobación.</p><br>`,
+                            // icon: '{{ session('status') === 'success' ? 'success' : 'error' }}',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                        });
+
+                        setTimeout(function() {
+                            window.location.href =
+                                '{{ route('admin.entendimiento-organizacions.index') }}';
+                        }, 5000);
+                    }, 0);
+                });
+            </script>
+        @break
+
+        @case('aprobado')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                        Swal.fire({
+                            // title: 'No es posible acceder a esta vista.',
+                            imageUrl: `{{ asset('img/errors/circulo_denegado.svg') }}`, // Replace with the path to your image
+                            imageWidth: 100, // Set the width of the image as needed
+                            imageHeight: 100,
+                            html: `<h4 style="color:red;">Se ha aprobado/rechazado el registro al que se intenta acceder</h4>
+            <br><p>Ya no es necesario volverlo a revisar.</p><br>`,
+                            // icon: '{{ session('status') === 'success' ? 'success' : 'error' }}',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                        });
+
+                        setTimeout(function() {
+                            window.location.href =
+                                '{{ route('admin.entendimiento-organizacions.index') }}';
+                        }, 5000);
+                    }, 0);
+                });
+            </script>
+        @break
+
+        @case('denegado')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                        Swal.fire({
+                            // title: 'No es posible acceder a esta vista.',
+                            imageUrl: `{{ asset('img/errors/ojo_denegado.svg') }}`, // Replace with the path to your image
+                            imageWidth: 100, // Set the width of the image as needed
+                            imageHeight: 100,
+                            html: `<h4 style="color:red;">No tienes permiso para acceder a esta vista</h4>`,
+                            // icon: '{{ session('status') === 'success' ? 'success' : 'error' }}',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                        });
+
+                        // Redirect after 5 seconds (adjust the time as needed)
+                        setTimeout(function() {
+                            window.location.href =
+                                '{{ route('admin.entendimiento-organizacions.index') }}';
+                        }, 5000);
+                    }, 0);
+                });
+            </script>
+        @break
+
+        @default
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                        Swal.fire({
+                            // title: 'No es posible acceder a esta vista.',
+                            imageUrl: `{{ asset('img/errors/ojo_denegado.svg') }}`, // Replace with the path to your image
+                            imageWidth: 100, // Set the width of the image as needed
+                            imageHeight: 100,
+                            html: `<h4 style="color:red;">No tienes permiso para acceder a esta vista</h4>`,
+                            // icon: '{{ session('status') === 'success' ? 'success' : 'error' }}',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                        });
+
+                        // Redirect after 5 seconds (adjust the time as needed)
+                        setTimeout(function() {
+                            window.location.href =
+                                '{{ route('admin.entendimiento-organizacions.index') }}';
+                        }, 5000);
+                    }, 0);
+                });
+            </script>
+    @endswitch
 @endsection
 
 
